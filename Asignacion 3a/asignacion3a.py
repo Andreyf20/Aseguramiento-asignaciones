@@ -2,6 +2,7 @@ from unittest import TestCase
 #Import de la libreria datetime para conseguir la fecha del sistema
 from datetime import date
 
+tests_enabled = False # Variable para activar los test cases
 dias31 = [1, 3, 5, 7, 8, 10, 12] # Enero, Marzo, Mayo, Julio, Agosto, Octubre y Diciembre meses con 31 días
 dias30 =  [4, 6, 9, 11] # Abril, Junio, Septiembre y Noviembre meses con 30 días
 
@@ -148,8 +149,7 @@ def edad_hoy(p_date: tuple) -> tuple:
     return (years, months, days)
 
 ''' Sección de pruebas para los requerimientos '''
-'''
-if __name__ == "__main__":
+if __name__ == "__main__" and tests_enabled:
     # R0: fecha_es_tupla
     assert fecha_es_tupla(32) == False
     assert fecha_es_tupla('hola') == False
@@ -216,13 +216,14 @@ if __name__ == "__main__":
     testCase.assertRaises(Exception, dias_desde_primero_enero, 'hola')
 
     # R5
-    # Esta prueba requiere de cambiar de cambiar la fecha a mano por lo que se va a comentar para que no afecte al programa
+    # Esta prueba requiere de cambiar de cambiar la fecha a mano 
+    # Tener cuidado si se corren las pruebas pues probablemente tire errores
     assert fecha_hoy() == (2020, 5, 30)
 
     # R6
-    # Esta prueba requiere de cambiar de cambiar la fecha a mano por lo que se va a comentar para que no afecte al programa
+    # Esta prueba requiere de cambiar de cambiar la fecha a mano
+    # Tener cuidado si se corren las pruebas pues probablemente tire errores
     assert edad_hoy((1998, 12, 13)) == (21, 5, 17)
     assert edad_hoy((1998, 9, 30)) == (21, 8, 0)
     assert edad_hoy((1995, 1, 3)) == (25, 4, 27)
     assert edad_hoy((1995, 5, 30)) == (25, 0, 0)
-'''
