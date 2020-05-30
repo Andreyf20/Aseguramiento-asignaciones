@@ -139,27 +139,16 @@ def edad_hoy(p_date: tuple) -> tuple:
     if(not pastDay):
         years -= 1
         months = (12 - p_date[1]) + today[1] # Encontrar los meses cumplidos
-        daysJan = dias_desde_primero_enero(today) # Encontrar los días cumplidos
-        daysDec = 0
-        december = (p_date[0], 12, 31)
-        while(p_date != december):
-            daysDec += 1
-
-            p_date = dia_siguiente(p_date)
-
-        days = daysJan + daysDec
         
     else:
         months = (today[1] - p_date[1]) # Encontrar los meses cumplidos
         p_date = (today[0], p_date[1], p_date[2]) # Encuentro la cantidad de días cumplidos
-        while(p_date != today):
-            days += 1
 
-            p_date = dia_siguiente(p_date)
-
+    days = abs(today[2] - p_date[2])
     return (years, months, days)
 
 ''' Sección de pruebas para los requerimientos '''
+'''
 if __name__ == "__main__":
     # R0: fecha_es_tupla
     assert fecha_es_tupla(32) == False
@@ -228,10 +217,12 @@ if __name__ == "__main__":
 
     # R5
     # Esta prueba requiere de cambiar de cambiar la fecha a mano por lo que se va a comentar para que no afecte al programa
-    # assert fecha_hoy() == (2020, 5, 28)
+    assert fecha_hoy() == (2020, 5, 30)
 
     # R6
-    assert edad_hoy((1998, 12, 13)) == (21, 5, 166)
-    assert edad_hoy((1998, 9, 30)) == (21, 8, 240)
-    assert edad_hoy((1995, 1, 3)) == (25, 4, 146)
-    assert edad_hoy((1995, 5, 28)) == (25, 0, 0)
+    # Esta prueba requiere de cambiar de cambiar la fecha a mano por lo que se va a comentar para que no afecte al programa
+    assert edad_hoy((1998, 12, 13)) == (21, 5, 17)
+    assert edad_hoy((1998, 9, 30)) == (21, 8, 0)
+    assert edad_hoy((1995, 1, 3)) == (25, 4, 27)
+    assert edad_hoy((1995, 5, 30)) == (25, 0, 0)
+'''
