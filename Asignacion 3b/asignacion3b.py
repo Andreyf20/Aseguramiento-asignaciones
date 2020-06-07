@@ -257,7 +257,7 @@ def dias_entre (fecha1: tuple, fecha2: tuple) -> int:
 
         return diasTranscurridos
     
-    while(fecha1 != fecha2):
+    while(fecha1 != fecha2): #fecha2 viene despues
 
         diasTranscurridos += 1
 
@@ -368,25 +368,27 @@ if __name__ == "__main__" and tests_enabled:
     assert fecha_futura((1616, 12, 12), 0) == (1616, 12, 12)
 
     #Fecha mayor o menor
-    assert fecha_despues((2020,4,20), (2020,4,20)) == False
-
-    assert fecha_despues((2019,4,20), (2020,4,20)) == False
-    assert fecha_despues((2020,4,20), (2019,4,20)) == True
-
-    assert fecha_despues((2020,4,20), (2020,3,20)) == True
-    assert fecha_despues((2020,5,20), (2020,7,20)) == False
-
-    assert fecha_despues((2020,4,19), (2020,4,20)) == False
-    assert fecha_despues((2020,4,29), (2020,4,15)) == True
+    testCase.assertRaises(Exception, fecha_despues, (1400, 12, "hola"),(1400, 12, 75))
+    testCase.assertRaises(Exception, fecha_despues, (1400, 13, 24),(1400, 12, 75))
+    testCase.assertRaises(Exception, fecha_despues, (1400, 13, 24),22)
+    assert fecha_despues((2020, 4, 20), (2020, 4, 20)) == False
+    assert fecha_despues((2019, 4, 20), (2020, 4, 20)) == False
+    assert fecha_despues((2020, 4, 20), (2019, 4, 20)) == True
+    assert fecha_despues((2020, 4, 20), (2020, 3, 20)) == True
+    assert fecha_despues((2020, 5, 20), (2020, 7, 20)) == False
+    assert fecha_despues((2020, 4, 19), (2020, 4, 20)) == False
+    assert fecha_despues((2020, 4, 29), (2020, 4, 15)) == True
     
     #R10
-    assert dias_entre((2020,4,20),(2020,4,20)) == 0
-
-    assert dias_entre((2019,4,20),(2020,4,20)) == 366
-    assert dias_entre((2020,4,20),(2019,4,20)) == 366
-
-    assert dias_entre((2020,4,20),(2020,5,20)) == 30
-    assert dias_entre((2020,5,20),(2020,4,20)) == 30
-
-    assert dias_entre((2020,1,31),(2020,2,1)) == 1
-    assert dias_entre((2020,2,28),(2020,3,1)) == 2
+    testCase.assertRaises(Exception, dias_entre, (1400, 12, "hola"),(1400, 12, 75))
+    testCase.assertRaises(Exception, dias_entre, (1400, 13, 24),(1400, 12, 75))
+    testCase.assertRaises(Exception, dias_entre, (1400, 13, 24),22)
+    assert dias_entre((2020, 4, 20),(2020, 4, 20)) == 0
+    assert dias_entre((2019, 4, 20),(2020, 4, 20)) == 366
+    assert dias_entre((2020, 4, 20),(2019, 4, 20)) == 366
+    assert dias_entre((2020, 4, 20),(2020, 5, 20)) == 30
+    assert dias_entre((2020, 5, 20),(2020, 4, 20)) == 30
+    assert dias_entre((2020, 1, 31),(2020, 2, 1)) == 1
+    assert dias_entre((2020, 2, 28),(2020, 3, 1)) == 2
+    assert dias_entre((2020, 9, 30),(2020, 9, 15)) == 15
+    assert dias_entre((2020, 9, 15),(2020, 9, 30)) == 15
