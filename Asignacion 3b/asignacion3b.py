@@ -180,7 +180,7 @@ def dia_semana(p_date: tuple) -> int:
 
 #R9
 def fecha_futura(p_date: tuple, days: int) -> tuple:
-    '''Función que dada una fecha y una cantidad de días devuelve la fecha después de esa cantidad de días'''
+    '''Función que dada una fecha y una cantidad de días devuelve la fecha después de esa cantidad de días.'''
     
     '''Validaciones de la fecha'''
     if(not fecha_es_tupla(p_date)):
@@ -197,10 +197,79 @@ def fecha_futura(p_date: tuple, days: int) -> tuple:
         days -= 1
     
     return p_date
+
+def fecha_despues(fecha1: tuple, fecha2: tuple)->bool:
+    '''Indica si la fecha en el primer parametro es despues que el segundo'''
+
+    '''Validaciones de la fecha'''
+    if(not fecha_es_tupla(fecha1) or not fecha_es_tupla(fecha2)):
+        raise Exception('La fecha ingresada no es válida: El formato es incorrecto o se tienen número no positivo, no enteros')
+
+    if(not fecha_es_valida(fecha1) or not fecha_es_valida(fecha2)):
+        raise Exception('La fecha ingresada no es válida: La fecha no es parte del calendario gregoriano')
+
+    #Fechas iguales
+    if(fecha1 == fecha2):
+        return False
+
+    #Comparamos años primero
+    if(fecha1[0] > fecha2[0]): #Año de fecha1 es mayor
+        return True
+    if(fecha1[0] < fecha2[0]): #Año de fecha1 es menor
+        return False
     
+    #comparamos meses
+    if(fecha1[1] > fecha2[1]): #Mes de fecha1 es mayor
+        return True
+    if(fecha1[1] < fecha2[1]): #Mes de fecha1 es menor
+        return False
+
+    #comparamos dias
+    if(fecha1[2] > fecha2[2]): #Mes de fecha1 es mayor
+        return True
+    if(fecha1[2] < fecha2[2]): #Mes de fecha1 es menor
+        return False
+
+
+#R10
+def dias_entre (fecha1: tuple, fecha2: tuple) -> int:
+    '''Funcion que determina el número de días naturales entre las dos fechas.'''
+    '''Validaciones de la fecha'''
+    if(not fecha_es_tupla(fecha1) or not fecha_es_tupla(fecha2)):
+        raise Exception('La fecha ingresada no es válida: El formato es incorrecto o se tienen número no positivo, no enteros')
+
+    if(not fecha_es_valida(fecha1) or not fecha_es_valida(fecha2)):
+        raise Exception('La fecha ingresada no es válida: La fecha no es parte del calendario gregoriano')
+    
+    '''Misma fecha'''
+    if(fecha1 == fecha2):
+        return 0
+
+    diasTranscurridos = 0
+
+    if(fecha_despues(fecha1,fecha2)): #fecha1 viene despues
+
+        while(fecha2 != fecha1):
+
+            diasTranscurridos += 1
+
+            fecha2 = dia_siguiente(fecha2)
+
+        return diasTranscurridos
+    
+    while(fecha1 != fecha2):
+
+        diasTranscurridos += 1
+
+        fecha1 = dia_siguiente(fecha1)
+
+    return diasTranscurridos
+
+
 
 ''' Sección de pruebas para los requerimientos '''
 if __name__ == "__main__" and tests_enabled:
+
     # R0: fecha_es_tupla
     assert fecha_es_tupla(32) == False
     assert fecha_es_tupla('hola') == False
@@ -297,3 +366,27 @@ if __name__ == "__main__" and tests_enabled:
     assert fecha_futura((2002, 10, 1), 3) == (2002, 10, 4)
     assert fecha_futura((1616, 12, 12), 20) == (1617, 1, 1)
     assert fecha_futura((1616, 12, 12), 0) == (1616, 12, 12)
+
+    #Fecha mayor o menor
+    assert fecha_despues((2020,4,20), (2020,4,20)) == False
+
+    assert fecha_despues((2019,4,20), (2020,4,20)) == False
+    assert fecha_despues((2020,4,20), (2019,4,20)) == True
+
+    assert fecha_despues((2020,4,20), (2020,3,20)) == True
+    assert fecha_despues((2020,5,20), (2020,7,20)) == False
+
+    assert fecha_despues((2020,4,19), (2020,4,20)) == False
+    assert fecha_despues((2020,4,29), (2020,4,15)) == True
+    
+    #R10
+    assert dias_entre((2020,4,20),(2020,4,20)) == 0
+
+    assert dias_entre((2019,4,20),(2020,4,20)) == 366
+    assert dias_entre((2020,4,20),(2019,4,20)) == 366
+
+    assert dias_entre((2020,4,20),(2020,5,20)) == 30
+    assert dias_entre((2020,5,20),(2020,4,20)) == 30
+
+    assert dias_entre((2020,1,31),(2020,2,1)) == 1
+    assert dias_entre((2020,2,28),(2020,3,1)) == 2
