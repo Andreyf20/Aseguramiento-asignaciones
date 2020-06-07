@@ -178,6 +178,26 @@ def dia_semana(p_date: tuple) -> int:
 
     return F % 7
 
+#R9
+def fecha_futura(p_date: tuple, days: int) -> tuple:
+    '''Función que dada una fecha y una cantidad de días devuelve la fecha después de esa cantidad de días'''
+    
+    '''Validaciones de la fecha'''
+    if(not fecha_es_tupla(p_date)):
+        raise Exception('La fecha ingresada no es válida: El formato es incorrecto o se tienen número no positivo, no enteros')
+
+    if(not fecha_es_valida(p_date)):
+        raise Exception('La fecha ingresada no es válida: La fecha no es parte del calendario gregoriano')
+
+    if(days < 0 or not isinstance(days, int)):
+        raise Exception('El valor de días ingresado debe ser no negativo entero')
+
+    while days > 0:
+        p_date = dia_siguiente(p_date)
+        days -= 1
+    
+    return p_date
+    
 
 ''' Sección de pruebas para los requerimientos '''
 if __name__ == "__main__" and tests_enabled:
@@ -267,3 +287,13 @@ if __name__ == "__main__" and tests_enabled:
     assert dia_semana((2002, 5, 25)) == 6
     assert dia_semana((2006, 7, 4)) == 2
     assert dia_semana((2007, 12, 13)) == 4
+
+    # R9
+    testCase.assertRaises(Exception, fecha_futura, (1400, 12, 75), 0)
+    testCase.assertRaises(Exception, fecha_futura, (1400, 12, 75, 0), 1)
+    testCase.assertRaises(Exception, fecha_futura, (1900, 1, 15), -10)
+    assert fecha_futura((1689, 1, 1), 15) == (1689, 1, 16)
+    assert fecha_futura((2020, 2, 28), 1) == (2020, 2, 29)
+    assert fecha_futura((2002, 10, 1), 3) == (2002, 10, 4)
+    assert fecha_futura((1616, 12, 12), 20) == (1617, 1, 1)
+    assert fecha_futura((1616, 12, 12), 0) == (1616, 12, 12)
