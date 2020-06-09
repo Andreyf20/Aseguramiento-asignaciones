@@ -178,6 +178,100 @@ def dia_semana(p_date: tuple) -> int:
 
     return F % 7
 
+<<<<<<< Updated upstream
+
+#R8
+#Función que imprime calendario gregoriano en formato 3 columnas x 4 filas
+calendar = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'] #lista con los meses del año
+
+week = ['D','L', 'K', 'M', 'J', 'V', 'S'] #lista con las iniciales de la semana
+
+def imprimir_3x4(year):
+    if year < 1583:
+        raise Exception('El año ingresado no es válido: El año no es parte del calendario gregoriano')
+    else:
+        
+        start_pos = dia_semana((year,1,1))#encontrar día en que se inicia año solicitado, se usa función de R7
+        leap = False
+        if bisiesto(year):
+            leap = True
+        cont=0
+        nextMonth = 0
+        while(cont<12):
+            #Nombre del mes
+            print('| ',end = ' ')
+            print(calendar[cont].center(20, ' '),end = '')        
+            if cont==3 or cont==7 or cont==11: #comenzar una fila de meses cada 4 columnas
+                print()
+                i=0
+                while(i<4):
+                    print('| ',end = '')
+                    print(''.join(['{0:<3}'.format(w) for w in week]),end='') #imprimir iniciales de la semana 4 veces
+                    i=i+1
+                print('\n| ',end='')            
+                day1, day2, day3, day4 = 0,0,0,0 
+                week1 = True #para utilizar la función en el R7
+                day = 1
+                loop = 0
+                month=1 + nextMonth
+                start_pos = dia_semana((year,month,1))
+                print('{0:<3}'.format('')*start_pos, end='')
+                while(day<=40):
+                    if day>=29:
+                        if leap == True and month == 2 and day == 29:
+                            print('{0:<3}'.format(29), end='') #formato de impresión dejando 3 espacios entre números y letras
+                        elif month in dias30 and day <= 30:
+                            print('{0:<3}'.format(day), end='')
+                        elif month in dias31 and day <= 31:
+                            print('{0:<3}'.format(day), end='')
+                        else:
+                            print('{0:<3}'.format(''), end='')
+                        start_pos+=1
+                        day = day +1                        
+                    else:
+                        print('{0:<3}'.format(day), end='')                
+                        start_pos+=1
+                        day = day +1
+                    if start_pos == 7:
+                        loop += 1
+                        if loop == 1:
+                            day1=day
+                        if loop == 2:
+                            day2=day
+                        if loop == 3:
+                            day3=day
+                        if loop == 4:
+                            day4=day
+                        print('|',end=' ')
+                        month = month + 1
+                        if week1:
+                            if(month<13):
+                                day = 1
+                                start_pos = dia_semana((year,month,1))
+                                print('{0:<3}'.format('')*start_pos, end='')
+                        if loop == 4:
+                            print()
+                            print('|',end=' ')
+                            start_pos = 0
+                            day=day1
+                            day1=0
+                            week1=False
+                            loop=0
+                            month=month - 4
+                        if week1 == False and loop == 1:
+                            start_pos = 0
+                            day=day2
+                        if week1 == False and loop == 2:
+                            start_pos = 0
+                            day=day3
+                        if week1 == False and loop == 3:
+                            start_pos = 0
+                            day=day4
+                print()
+                print()
+                nextMonth = nextMonth + 4
+            cont=cont+1
+
 #R9
 def fecha_futura(p_date: tuple, days: int) -> tuple:
     '''Función que dada una fecha y una cantidad de días devuelve la fecha después de esa cantidad de días.'''
@@ -266,6 +360,56 @@ def dias_entre (fecha1: tuple, fecha2: tuple) -> int:
     return diasTranscurridos
 
 
+=======
+#R8
+# List of tuples for Months and date ranges
+# + 1 added to avoid confusion of max day range
+calendar = [('Enero', range(1, 31 + 1)),
+            ('Febrero', range(1, 28 + 1)),
+            ('Marzo', range(1, 31 + 1)),
+            ('Abril', range(1, 30 + 1)),
+            ('Mayo', range(1, 31 + 1)),
+            ('Junio', range(1, 30 + 1)),
+            ('Julio', range(1, 31 + 1)),
+            ('Agosto', range(1, 31 + 1)),
+            ('Setiembre', range(1, 30 + 1)),
+            ('Octubre', range(1, 31 + 1)),
+            ('Noviembre', range(1, 30 + 1)),
+            ('Diciembre', range(1, 31 + 1))]
+
+week = ['D','L', 'K', 'M', 'J', 'V', 'S']
+
+def imprimir_3x4(year):
+
+    #encontrar día en que se inicia año solicitado
+    start_pos = dia_semana((year,1,1))
+
+    # if True, adjust Feburary date range for leap year | 29 days
+    if bisiesto(year):
+        calendar[1] = ('Febrero', range(1, 29 + 1))
+
+    for month, days in calendar:
+        # Print month title
+        print('{0} {1}'.format(month, year).center(20, ' '), end = '')
+        # Print Day headings
+        print(''.join(['{0:<3}'.format(w) for w in week]))
+        # Add spacing for non-zero starting position
+        print('{0:<3}'.format('')*start_pos, end='')
+
+        for day in days:
+        # Print day
+            print('{0:<3}'.format(day), end='')
+            start_pos += 1
+            if start_pos == 7:
+                # If start_pos == 7 (Sunday) start new line
+                print()
+                start_pos = 0 # Reset counter
+        print('\n')
+        
+year=int(input('Ingrese el año: '))
+print('Calendario del año '+ str(year)+ ' D.C.')
+imprimir_3x4(year)
+>>>>>>> Stashed changes
 
 ''' Sección de pruebas para los requerimientos '''
 if __name__ == "__main__" and tests_enabled:
@@ -356,6 +500,7 @@ if __name__ == "__main__" and tests_enabled:
     assert dia_semana((2002, 5, 25)) == 6
     assert dia_semana((2006, 7, 4)) == 2
     assert dia_semana((2007, 12, 13)) == 4
+<<<<<<< Updated upstream
 
     # R9
     testCase.assertRaises(Exception, fecha_futura, (1400, 12, 75), 0)
@@ -392,3 +537,5 @@ if __name__ == "__main__" and tests_enabled:
     assert dias_entre((2020, 2, 28),(2020, 3, 1)) == 2
     assert dias_entre((2020, 9, 30),(2020, 9, 15)) == 15
     assert dias_entre((2020, 9, 15),(2020, 9, 30)) == 15
+=======
+>>>>>>> Stashed changes
