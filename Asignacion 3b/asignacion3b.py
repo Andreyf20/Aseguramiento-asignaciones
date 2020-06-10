@@ -178,7 +178,6 @@ def dia_semana(p_date: tuple) -> int:
 
     return F % 7
 
-<<<<<<< Updated upstream
 
 #R8
 #Función que imprime calendario gregoriano en formato 3 columnas x 4 filas
@@ -360,56 +359,6 @@ def dias_entre (fecha1: tuple, fecha2: tuple) -> int:
     return diasTranscurridos
 
 
-=======
-#R8
-# List of tuples for Months and date ranges
-# + 1 added to avoid confusion of max day range
-calendar = [('Enero', range(1, 31 + 1)),
-            ('Febrero', range(1, 28 + 1)),
-            ('Marzo', range(1, 31 + 1)),
-            ('Abril', range(1, 30 + 1)),
-            ('Mayo', range(1, 31 + 1)),
-            ('Junio', range(1, 30 + 1)),
-            ('Julio', range(1, 31 + 1)),
-            ('Agosto', range(1, 31 + 1)),
-            ('Setiembre', range(1, 30 + 1)),
-            ('Octubre', range(1, 31 + 1)),
-            ('Noviembre', range(1, 30 + 1)),
-            ('Diciembre', range(1, 31 + 1))]
-
-week = ['D','L', 'K', 'M', 'J', 'V', 'S']
-
-def imprimir_3x4(year):
-
-    #encontrar día en que se inicia año solicitado
-    start_pos = dia_semana((year,1,1))
-
-    # if True, adjust Feburary date range for leap year | 29 days
-    if bisiesto(year):
-        calendar[1] = ('Febrero', range(1, 29 + 1))
-
-    for month, days in calendar:
-        # Print month title
-        print('{0} {1}'.format(month, year).center(20, ' '), end = '')
-        # Print Day headings
-        print(''.join(['{0:<3}'.format(w) for w in week]))
-        # Add spacing for non-zero starting position
-        print('{0:<3}'.format('')*start_pos, end='')
-
-        for day in days:
-        # Print day
-            print('{0:<3}'.format(day), end='')
-            start_pos += 1
-            if start_pos == 7:
-                # If start_pos == 7 (Sunday) start new line
-                print()
-                start_pos = 0 # Reset counter
-        print('\n')
-        
-year=int(input('Ingrese el año: '))
-print('Calendario del año '+ str(year)+ ' D.C.')
-imprimir_3x4(year)
->>>>>>> Stashed changes
 
 ''' Sección de pruebas para los requerimientos '''
 if __name__ == "__main__" and tests_enabled:
@@ -500,7 +449,6 @@ if __name__ == "__main__" and tests_enabled:
     assert dia_semana((2002, 5, 25)) == 6
     assert dia_semana((2006, 7, 4)) == 2
     assert dia_semana((2007, 12, 13)) == 4
-<<<<<<< Updated upstream
 
     # R9
     testCase.assertRaises(Exception, fecha_futura, (1400, 12, 75), 0)
@@ -537,5 +485,3 @@ if __name__ == "__main__" and tests_enabled:
     assert dias_entre((2020, 2, 28),(2020, 3, 1)) == 2
     assert dias_entre((2020, 9, 30),(2020, 9, 15)) == 15
     assert dias_entre((2020, 9, 15),(2020, 9, 30)) == 15
-=======
->>>>>>> Stashed changes
