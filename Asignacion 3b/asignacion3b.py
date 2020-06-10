@@ -2,7 +2,7 @@ from unittest import TestCase
 #Import de la libreria datetime para conseguir la fecha del sistema
 from datetime import date
 
-tests_enabled = True # Variable para activar los test cases
+tests_enabled = False # Variable para activar los test cases
 dias31 = [1, 3, 5, 7, 8, 10, 12] # Enero, Marzo, Mayo, Julio, Agosto, Octubre y Diciembre meses con 31 días
 dias30 =  [4, 6, 9, 11] # Abril, Junio, Septiembre y Noviembre meses con 30 días
 
@@ -152,6 +152,7 @@ def edad_hoy(p_date: tuple) -> tuple:
 def dia_semana(p_date: tuple) -> int:
     '''Función que determina el día de la semana que le corresponde: 0 domingo, 1 lunes, 2 martes, 3 miércoles, 4 jueves, 5 viernes, 6 sábado.'''
     # Se utiliza la regla de Zeller: F=k+ [(13*m-1)/5] +D+ [D/4] +[C/4]-2*C
+    # https://www.careeranna.com/articles/find-day-for-given-date-quickly/
 
     '''Validaciones de la fecha'''
     if(not fecha_es_tupla(p_date)):
@@ -185,7 +186,10 @@ calendar = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','S
 
 week = ['D','L', 'K', 'M', 'J', 'V', 'S'] #lista con las iniciales de la semana
 
-def imprimir_3x4(year):
+def imprimir_3x4(year: int) -> None:
+    '''Función que imprime el calendario dado un año.'''
+
+    # https://stackoverflow.com/questions/33624221/make-a-yearly-calendar-without-importing-a-calendar
     if year < 1583:
         raise Exception('El año ingresado no es válido: El año no es parte del calendario gregoriano')
     else:
@@ -431,15 +435,15 @@ if __name__ == "__main__" and tests_enabled:
     # R5
     # Esta prueba requiere de cambiar de cambiar la fecha a mano 
     # Tener cuidado si se corren las pruebas pues probablemente tire errores
-    # assert fecha_hoy() == (2020, 5, 30)
+    assert fecha_hoy() == (2020, 5, 30)
 
     # R6
     # Esta prueba requiere de cambiar de cambiar la fecha a mano
     # Tener cuidado si se corren las pruebas pues probablemente tire errores
-    # assert edad_hoy((1998, 12, 13)) == (21, 5, 17)
-    # assert edad_hoy((1998, 9, 30)) == (21, 8, 0)
-    # assert edad_hoy((1995, 1, 3)) == (25, 4, 27)
-    # assert edad_hoy((1995, 5, 30)) == (25, 0, 0)
+    assert edad_hoy((1998, 12, 13)) == (21, 5, 17)
+    assert edad_hoy((1998, 9, 30)) == (21, 8, 0)
+    assert edad_hoy((1995, 1, 3)) == (25, 4, 27)
+    assert edad_hoy((1995, 5, 30)) == (25, 0, 0)
 
     # R7
     assert dia_semana((2020, 1, 1)) == 3
@@ -449,6 +453,16 @@ if __name__ == "__main__" and tests_enabled:
     assert dia_semana((2002, 5, 25)) == 6
     assert dia_semana((2006, 7, 4)) == 2
     assert dia_semana((2007, 12, 13)) == 4
+
+    # R8
+    print('2020')
+    imprimir_3x4(2020)
+    print('2012')
+    imprimir_3x4(2012)
+    print('2000')
+    imprimir_3x4(2000)
+    print('1998')
+    imprimir_3x4(1998)
 
     # R9
     testCase.assertRaises(Exception, fecha_futura, (1400, 12, 75), 0)
